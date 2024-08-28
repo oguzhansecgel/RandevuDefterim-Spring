@@ -20,4 +20,5 @@ public class ShopConsumer {
         customerInfoService.sendToCustomerAppointment(payload.value());
         System.out.println("Consumer tarafından mesaj alındı  : " + payload.value());
     }
+
 }

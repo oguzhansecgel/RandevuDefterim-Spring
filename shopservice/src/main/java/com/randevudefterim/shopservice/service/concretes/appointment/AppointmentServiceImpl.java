@@ -34,7 +34,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public CreateAppointmentResponse createAppointment(CreateAppointmentRequest request) {
         Appointment appointment = AppointmentMapper.INSTANCE.createAppointmentMapper(request);
 
-        notificationProducer.sendMessage(request);
+        notificationProducer.createAppointmentMessage(request);
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return new CreateAppointmentResponse(
                 appointment.getId(),

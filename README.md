@@ -68,7 +68,7 @@ Projede kullanılan microservice'ler şunlardır:
 1. **Maven bağımlılıklarını yükleyin:**
    ```bash
    mvn clean install
-2. Microservice'leri sırasıyla çalıştırın:
+2. **Microservice'leri sırasıyla çalıştırın:**
 
 Config Server
 Discovery Server
@@ -76,7 +76,8 @@ Gateway Server
 Notification Service
 Owner Service
 Appointment Service
-3. API uçlarını Postman veya benzeri bir araçla test edebilirsiniz.
+
+3. **API uçlarını Postman veya benzeri bir araçla test edebilirsiniz.**
 
 
 ## İletişim

@@ -1,9 +1,6 @@
 package com.randevudefterim.shopservice.core.dto.request.appointment;
 
-import com.randevudefterim.shopservice.entity.Owner;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
 
+
     private final JavaMailSender mailSender;
 
     public CustomerInfoServiceImpl(JavaMailSender mailSender) {
@@ -30,7 +31,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                         "İyi günler dileriz.",
                 appointment.getCustomerFirstName(),
                 appointment.getCustomerLastName(),
-                appointment.getAppointmentDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss"))
+                appointment.getAppointmentDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm"))
         ));
 
 
@@ -40,4 +41,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             e.printStackTrace();
         }
     }
+
+
+
 }
