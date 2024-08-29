@@ -9,6 +9,7 @@ import com.randevudefterim.shopservice.kafka.producer.NotificationProducer;
 import com.randevudefterim.shopservice.repository.AppointmentRepository;
 import com.randevudefterim.shopservice.service.abstracts.appointment.AppointmentService;
 import org.springframework.stereotype.Service;
+import org.turkcell.tcell.exception.exceptions.type.BaseBusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,18 +33,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public CreateAppointmentResponse createAppointment(CreateAppointmentRequest request) {
+        List<Appointment> existingAppointments = appointmentRepository.findByOwnerIdAndAppointmentDate(
+                request.getOwnerId(), request.getAppointmentDate());
+
+        if (!existingAppointments.isEmpty()) {
+            throw new BaseBusinessException("Bu saat ve tarihte zaten bir randevu var.");
+        }
+
         Appointment appointment = AppointmentMapper.INSTANCE.createAppointmentMapper(request);
 
         notificationProducer.createAppointmentMessage(request);
+
         Appointment savedAppointment = appointmentRepository.save(appointment);
+
         return new CreateAppointmentResponse(
-                appointment.getId(),
-                appointment.getCustomerFirstName(),
-                appointment.getCustomerLastName(),
-                appointment.getPhoneNumber(),
-                appointment.getEmail(),
-                appointment.getAppointmentDate(),
-                appointment.getOwner().getId()
+                savedAppointment.getId(),
+                savedAppointment.getCustomerFirstName(),
+                savedAppointment.getCustomerLastName(),
+                savedAppointment.getPhoneNumber(),
+                savedAppointment.getEmail(),
+                savedAppointment.getAppointmentDate(),
+                savedAppointment.getOwner().getId()
         );
     }
 
@@ -52,6 +62,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
         Appointment existingAppointment = optionalAppointment.get();
         Appointment appointment = AppointmentMapper.INSTANCE.updateAppointmentMapper(request,existingAppointment);
+        notificationProducer.updateAppointMessage(request);
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return new UpdateAppointmentResponse(
                 appointment.getId(),

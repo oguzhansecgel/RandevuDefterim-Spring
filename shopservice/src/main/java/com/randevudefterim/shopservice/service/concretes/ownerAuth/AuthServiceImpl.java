@@ -2,6 +2,7 @@ package com.randevudefterim.shopservice.service.concretes.ownerAuth;
 
 import com.randevudefterim.shopservice.core.dto.request.owner.LoginRequest;
 import com.randevudefterim.shopservice.core.dto.request.owner.RegisterRequest;
+import com.randevudefterim.shopservice.core.dto.response.owner.LoginResponse;
 import com.randevudefterim.shopservice.core.mapper.OwnerMapper;
 import com.randevudefterim.shopservice.entity.Owner;
 import com.randevudefterim.shopservice.service.abstracts.ownerAuth.AuthService;
@@ -42,23 +43,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-        if(!authentication.isAuthenticated())
+        if (!authentication.isAuthenticated()) {
             throw new RuntimeException("E-posta ya da şifre yanlış");
-
+        }
 
         UserDetails owner = ownerService.loadUserByUsername(loginRequest.getEmail());
-        Map<String,Object> claims = new HashMap<>();
+        int userId = ((Owner) owner).getId();
+        Map<String, Object> claims = new HashMap<>();
         List<String> roles = owner
                 .getAuthorities()
                 .stream()
                 .map((role) -> role.getAuthority())
                 .toList();
         claims.put("roles", roles);
-            return baseJwtService.generateToken(loginRequest.getEmail(), claims);
+        claims.put("userId",userId);
+        String token = baseJwtService.generateToken(loginRequest.getEmail(), claims);
+
+
+        return new LoginResponse(token, userId);
     }
 }

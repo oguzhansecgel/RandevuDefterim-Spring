@@ -42,6 +42,27 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         }
     }
 
+    @Override
+    public void updateToCustomerAppointment(Appointment updateAppointment) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(updateAppointment.getEmail());
+        mailMessage.setSubject("Randevu Güncelleme");
+        mailMessage.setText(String.format("Merhaba %s %s,\n\n" +
+                        "Randevunuz başarıyla güncellenmiştir. Yeni randevu tarihiniz: %s.\n\n" +
+                        "Sorularınız ve destek için bizlerle iletişime geçmekten çekinmeyin.\n\n" +
+                        "İyi günler dileriz.",
+                updateAppointment.getCustomerFirstName(),
+                updateAppointment.getCustomerLastName(),
+                updateAppointment.getAppointmentDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm"))
+        ));
+
+
+        try {
+            mailSender.send(mailMessage);
+        } catch (MailException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

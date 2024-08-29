@@ -2,6 +2,7 @@ package com.randevudefterim.shopservice.controller;
 
 import com.randevudefterim.shopservice.core.dto.request.owner.LoginRequest;
 import com.randevudefterim.shopservice.core.dto.request.owner.RegisterRequest;
+import com.randevudefterim.shopservice.core.dto.response.owner.LoginResponse;
 import com.randevudefterim.shopservice.service.abstracts.ownerAuth.AuthService;
 import com.randevudefterim.shopservice.service.abstracts.ownerAuth.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public String login( @RequestBody LoginRequest request)
+    public LoginResponse login(@RequestBody LoginRequest request)
     {
         return authService.login(request);
     }

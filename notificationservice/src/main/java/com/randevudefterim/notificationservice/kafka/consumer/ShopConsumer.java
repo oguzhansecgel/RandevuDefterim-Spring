@@ -16,9 +16,16 @@ public class ShopConsumer {
     private final CustomerInfoService customerInfoService;
 
     @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consumer(ConsumerRecord<String, Appointment> payload) {
+    public void createConsumer(ConsumerRecord<String, Appointment> payload) {
         customerInfoService.sendToCustomerAppointment(payload.value());
         System.out.println("Consumer tarafından mesaj alındı  : " + payload.value());
     }
+
+    @KafkaListener(topics = "${spring.kafka.template.update-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    public void updateConsumer(ConsumerRecord<String, Appointment> payload) {
+        customerInfoService.updateToCustomerAppointment(payload.value());
+        System.out.println("Consumer güncelleme mesajı alındı  : " + payload.value());
+    }
+
 
 }

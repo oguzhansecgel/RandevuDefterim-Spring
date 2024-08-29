@@ -34,6 +34,7 @@ public class AppointmentController {
     {
         return appointmentService.appointmentWithOwnerList(ownerId);
     }
+
     @DeleteMapping("/deleteAppointment/{id}")
     public void deleteAppointment(@PathVariable int id)
     {

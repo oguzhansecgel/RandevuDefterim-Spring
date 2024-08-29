@@ -22,6 +22,7 @@ public class Appointment extends BaseEntity {
     @Column(name = "customer_first_name")
     private String customerFirstName;
     @Column(name = "customer_last_name")
+
     private String customerLastName;
     @Column(name = "customer_phone_number",nullable = true)
     private String phoneNumber;
