@@ -58,7 +58,7 @@ Projede kullanılan microservice'ler şunlardır:
   Yeni bir randevu oluşturur.
 
 - **PUT** `/appointment/updateAppointment/{id}`  
-  Mevcut bir randevuyu günceller.
+  Mevcut bir randevuyu günceller..
 
 ### AuthController
 
